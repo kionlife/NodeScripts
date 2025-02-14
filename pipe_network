@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Function for configuring iptables
+setup_iptables() {
+    echo "Loading and executing script for iptables configuration..."
+    bash <(curl -s https://raw.githubusercontent.com/YAMISHKA02/NodeScripts/refs/heads/main/iptable.sh)
+    echo "Iptables configuration completed."
+}
+
+# Function for installing Fail2ban
+install_fail2ban() {
+    echo "Loading and executing script for Fail2ban installation..."
+    bash <(curl -s https://raw.githubusercontent.com/YAMISHKA02/NodeScripts/refs/heads/main/file2ban.sh)
+    echo "Fail2ban installation completed."
+}
+
+install_docker() {
+    echo "Loading Docker"
+    bash <(curl -s https://raw.githubusercontent.com/YAMISHKA02/NodeScripts/refs/heads/main/docker.sh)
+    echo "Docker installation completed."
+}
+
+install_packs() {
+    bash <(curl -s https://raw.githubusercontent.com/YAMISHKA02/NodeScripts/refs/heads/main/packs.sh)
+    echo "Dependencies installation completed."
+}
+
+# Function for displaying menu
+show_menu() {
+    echo "Select action:"
+    echo "1. Configure iptables"
+    echo "2. Install Fail2ban"
+    echo "3. Install Docker"
+    echo "4. Install dependencies"
+    echo "0. Exit"
+}
+
+# Function for handling user choice
+handle_choice() {
+    case "$1" in
+        1) setup_iptables ;;
+        2) install_fail2ban ;;
+        3) install_docker ;;
+        4) install_packs ;;
+        0) echo "Exit."; exit 0 ;;
+        *) echo "Invalid choice. Try again." ;;
+    esac
+}
+
+while true; do
+    show_menu
+    read -p "Your choice: " action
+    handle_choice "$action"  # Using action variable
+done
